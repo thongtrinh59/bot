@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mainbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python main.py'
+    ports:
+      - 8002:5000
+    networks:
+      - mainnet
+    # volumes:
+    #   - .:/app
+
+networks:
+  mainnet:
+
