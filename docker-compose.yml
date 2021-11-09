@@ -1,17 +1,29 @@
 version: '3.8'
-services:
-  mainbot:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: 'python main.py'
-    ports:
-      - 8002:5000
-    networks:
-      - mainnet
-    # volumes:
-    #   - .:/app
-
 networks:
-  mainnet:
+  default:
+    name: mainnet
+
+services:
+  api:
+    build: api
+    volumes:
+      - ./api:/backend
+    ports:
+      - "5000:5000"
+
+  client:
+    build: client
+    command: ["npm", "start"]
+    volumes:
+      - ./client:/frontend
+      - node-modules:/frontend/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - '3001:3000'
+    depends_on:
+      - api
+
+volumes:
+  node-modules:
 
